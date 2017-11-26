@@ -1,7 +1,7 @@
-var renderer, scene, camera
+let renderer, scene, camera
 
-var ww = window.innerWidth,
-  wh = window.innerHeight
+let ww = window.innerWidth
+let wh = window.innerHeight
 
 function init () {
   renderer = new THREE.WebGLRenderer({canvas: document.getElementById('scene')})
@@ -26,35 +26,34 @@ const POSITIONS = [
   new THREE.Vector3(0, 0, -1)
 ]
 
-var generateCubes = (level, position) => {
+function generateCubes (level, position) {
   if (level < 1) {
     return
   }
-  var size = 3 ** level
+  let size = 3 ** level
   scene.add(createCube(size * 3, position))
   for (let pos of POSITIONS) {
-    var new_position = position.clone()
-    new_position = new_position.addScaledVector(pos, size * 3)
-    scene.add(createCube(size, new_position))
-    generateCubes(level - 1, new_position)
+    let newPosition = position.clone().addScaledVector(pos, size * 3)
+    scene.add(createCube(size, newPosition))
+    generateCubes(level - 1, newPosition)
   }
 }
 
-var createCube = function (size, position) {
-  var geometry = new THREE.BoxGeometry(size, size, size)
-  var mat = new THREE.MeshNormalMaterial()
-  var cube = new THREE.Mesh(geometry, mat)
+function createCube (size, position) {
+  let geometry = new THREE.BoxGeometry(size, size, size)
+  let mat = new THREE.MeshNormalMaterial()
+  let cube = new THREE.Mesh(geometry, mat)
 
   cube.position.set(position.x, position.y, position.z)
 
   return cube
 }
 
-var angle = 0
-var radius = 500
+let angle = 0
+let radius = 500
 
-var render = function () {
-  requestAnimationFrame(render)
+function render () {
+  window.requestAnimationFrame(render)
 
   angle += 0.01
   camera.position.x = radius * Math.cos(angle)
